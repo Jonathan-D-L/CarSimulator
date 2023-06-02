@@ -12,6 +12,7 @@ namespace UtilityLibrary
         DriveBackwards,
         TurnLeft,
         TurnRight,
+        FillUpGas,
         Stop,
         Start,
         Default
@@ -19,6 +20,7 @@ namespace UtilityLibrary
 
     public enum DriverActions
     {
+        Drive,
         FillUpGas,
         Rest,
         Eat,

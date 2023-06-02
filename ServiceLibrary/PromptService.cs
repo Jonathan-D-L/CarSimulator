@@ -42,6 +42,11 @@ namespace ServiceLibrary
             return "  Welcome to Car Simulator!\r\n     ______\r\n    /|_||_\\`.__\r\n   (   _    _ _\\\r\n   =`-(_)--(_)-'\r\n  Use Arrow keys or WASD to select options:\r\n";
         }
 
+        public string GetOutOfGasPrompt()
+        {
+            return "out of gas please fill up gas";
+        }
+
         public string GetCurrentStatsStrung(Car statsCar, Driver statsDriver)
         {
             var fuel = "";

@@ -26,7 +26,6 @@ namespace ServiceLibrary
                 Hunger = 0
             };
         }
-
         public CurrentDirection GetCurrentDirection(Car statsCar, CarActions carActions)
         {
             if (statsCar.CurrentDirection == CurrentDirection.North)
@@ -70,6 +69,49 @@ namespace ServiceLibrary
                 }
             }
             return statsCar.CurrentDirection;
+        }
+        public Car SetCarStats(Car statsCar, CarActions carAction)
+        {
+            if (statsCar.Fuel <= 0) { statsCar.Fuel = 0; return statsCar; }
+            switch (carAction)
+            {
+                case CarActions.TurnLeft:
+                case CarActions.TurnRight:
+                    statsCar.Fuel -= 1;
+                    break;
+                case CarActions.DriveForwards:
+                    statsCar.Fuel -= 5;
+                    break;
+                case CarActions.DriveBackwards:
+                    statsCar.Fuel -= 3;
+                    break;
+                case CarActions.FillUpGas:
+                    statsCar.Fuel = 100;
+                    break;
+            }
+            return statsCar;
+        }
+        public Driver SetDriverStats(Driver statsDriver, DriverActions driverAction)
+        {
+            switch (driverAction)
+            {
+                case DriverActions.Drive:
+                    statsDriver.Tiredness += 3;
+                    statsDriver.Hunger += 1;
+                    break;
+                case DriverActions.FillUpGas:
+                    statsDriver.Tiredness += 4;
+                    statsDriver.Hunger += 1;
+                    break;
+                case DriverActions.Eat:
+                    statsDriver.Tiredness += 8;
+                    statsDriver.Hunger = 0;
+                    break;
+                case DriverActions.Rest:
+                    statsDriver.Tiredness = 0;
+                    break;
+            }
+            return statsDriver;
         }
     }
 }

@@ -22,7 +22,7 @@ public class CarSimApp
         {
             var options = _promptService.GetStartOptions();
             var prompt = _promptService.GetStartPrompt();
-            selector = Selector.GetSelections(selector, options, prompt);
+            selector = Selector.GetSelections(selector, options, prompt, "");
             if (selector == 0)
             {
                 _carGame.Game();

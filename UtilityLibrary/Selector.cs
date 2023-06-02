@@ -8,12 +8,12 @@ namespace UtilityLibrary
 {
     public class Selector
     {
-        public static int GetSelections(int selector, List<string> options, string prompt)
+        public static int GetSelections(int selector, List<string> options, string prompt, string stats)
         {
             while (true)
             {
-                Console.Clear();
                 var index = 0;
+                Console.Clear();
                 Console.WriteLine(prompt);
                 foreach (var option in options)
                 {
@@ -27,7 +27,7 @@ namespace UtilityLibrary
                     }
                     index++;
                 }
-
+                Console.WriteLine(stats);
                 var input = Console.ReadKey().Key;
                 if (input == ConsoleKey.Spacebar || input == ConsoleKey.Enter)
                 {

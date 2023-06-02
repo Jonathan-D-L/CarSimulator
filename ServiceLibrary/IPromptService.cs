@@ -13,5 +13,6 @@ namespace ServiceLibrary
         List<string> GetGameOptions();
         string GetStartPrompt();
         string GetCurrentStatsStrung(Car statsCar, Driver statsDriver);
+        string GetOutOfGasPrompt();
     }
 }
