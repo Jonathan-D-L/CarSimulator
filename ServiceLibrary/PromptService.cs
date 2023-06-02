@@ -139,13 +139,13 @@ namespace ServiceLibrary
             }
 
             var compass = GetCompass(statsCar);
-            var space = TextSpacer.SpaceText(43, statsDriver.Tiredness.ToString());
+            var space = TextSpacer.SpaceText(63, statsDriver.Tiredness.ToString());
             return $"\r\n       Direction: {statsCar.CurrentDirection}  " +
-                   $"\r\n\r\n       Fuel: {statsCar.Fuel}%\r\n{fuel}     {compass[0]}" +
-                   $"\r\n                                                              {compass[1]}" +
+                   $"\r\n\r\n       Fuel: {statsCar.Fuel}%\r\n{fuel}                         {compass[0]}" +
+                   $"\r\n                                                                                  {compass[1]}" +
                    $"\r\n       Tiredness: {statsDriver.Tiredness}%{space}{compass[2]}\r\n" +
-                   $"{tiredness}     {compass[3]}" +
-                   $"\r\n                                                              {compass[4]}" +
+                   $"{tiredness}                         {compass[3]}" +
+                   $"\r\n                                                                                  {compass[4]}" +
                    $"\r\n       Hunger: {hungerString}\r\n{hunger}\r\n";
         }
     }
