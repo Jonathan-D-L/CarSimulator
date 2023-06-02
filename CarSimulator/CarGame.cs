@@ -20,7 +20,9 @@ namespace CarSimulator
             var warnings = new List<string>();
             var statsCar = _actionService.GetCarStats();
             var statsDriver = _actionService.GetDriverStats();
-            bool outOfGas = false;
+            var outOfGas = false;
+            var lastCarAction = CarActions.Default;
+            var lastDriverAction = DriverActions.Default;
             while (true)
             {
                 var crashed = CarCrashChance.CrashChance(crashThreshold);
@@ -30,6 +32,9 @@ namespace CarSimulator
                 }
 
                 var prompt = _promptService.GetGameTitle();
+                prompt += _promptService.GetLastAction(lastCarAction, lastDriverAction);
+                lastCarAction = CarActions.Default;
+                lastDriverAction = DriverActions.Default;
 
                 if ((statsDriver.Tiredness > 60 && statsDriver.Tiredness < 80) && !warnings.Any(s => s.Equals(_promptService.GetTirednessWarning(statsDriver))))
                 {
@@ -67,6 +72,7 @@ namespace CarSimulator
                     case 0:
                         //turn left
                         statsCar = _actionService.SetCarStats(statsCar, CarActions.TurnLeft);
+                        lastCarAction = CarActions.TurnLeft;
                         if (statsCar.Fuel == 0) { outOfGas = true; break; }
                         statsCar.CurrentDirection = _actionService.GetCurrentDirection(statsCar, CarActions.TurnLeft);
                         statsDriver = _actionService.SetDriverStats(statsDriver, DriverActions.Drive);
@@ -74,6 +80,7 @@ namespace CarSimulator
                     case 1:
                         //turn right
                         statsCar = _actionService.SetCarStats(statsCar, CarActions.TurnRight);
+                        lastCarAction = CarActions.TurnRight;
                         if (statsCar.Fuel == 0) { outOfGas = true; break; }
                         statsCar.CurrentDirection = _actionService.GetCurrentDirection(statsCar, CarActions.TurnRight);
                         statsDriver = _actionService.SetDriverStats(statsDriver, DriverActions.Drive);
@@ -81,29 +88,34 @@ namespace CarSimulator
                     case 2:
                         //drive forwards
                         statsCar = _actionService.SetCarStats(statsCar, CarActions.DriveForwards);
+                        lastCarAction = CarActions.DriveForwards;
                         if (statsCar.Fuel == 0) { outOfGas = true; break; }
                         statsDriver = _actionService.SetDriverStats(statsDriver, DriverActions.Drive);
                         break;
                     case 3:
                         //reverse
                         statsCar = _actionService.SetCarStats(statsCar, CarActions.DriveBackwards);
+                        lastCarAction = CarActions.DriveBackwards;
                         if (statsCar.Fuel == 0) { outOfGas = true; break; }
                         statsDriver = _actionService.SetDriverStats(statsDriver, DriverActions.Drive);
                         break;
                     case 4:
                         //rest
                         statsDriver = _actionService.SetDriverStats(statsDriver, DriverActions.Rest);
+                        lastDriverAction = DriverActions.Rest;
                         crashThreshold = 0;
                         break;
                     case 5:
                         //fill up gas
                         statsCar = _actionService.SetCarStats(statsCar, CarActions.FillUpGas);
                         statsDriver = _actionService.SetDriverStats(statsDriver, DriverActions.FillUpGas);
+                        lastDriverAction = DriverActions.FillUpGas;
                         outOfGas = false;
                         break;
                     case 6:
                         //eat
                         statsDriver = _actionService.SetDriverStats(statsDriver, DriverActions.Eat);
+                        lastDriverAction = DriverActions.Eat;
                         break;
                     case 7:
                         //quit

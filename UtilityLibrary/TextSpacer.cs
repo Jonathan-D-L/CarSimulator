@@ -29,5 +29,25 @@ namespace UtilityLibrary
 
             return space;
         }
+        public static string SpaceText(int spaceAmount, int subtractAmount)
+        {
+            var spacing = new List<string>();
+            for (int i = 0; i < spaceAmount; i++)
+            {
+                spacing.Add(" ");
+            }
+            for (int i = 0; i < subtractAmount; i++)
+            {
+                spacing = spacing.Take(spacing.Count() - 1).ToList();
+            }
+
+            var space = "";
+            foreach (var s in spacing)
+            {
+                space += s;
+            }
+
+            return space;
+        }
     }
 }

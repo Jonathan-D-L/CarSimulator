@@ -42,7 +42,19 @@ namespace ServiceLibrary
         {
             return "out of gas please fill up gas.";
         }
-
+        public string GetTirednessWarning(Driver statsDriver)
+        {
+            switch (statsDriver.Tiredness)
+            {
+                case >= 100:
+                    return "WARNING! You are almost sleep please take a break and rest.";
+                case > 80:
+                    return "You are very tired please take a break and rest.";
+                case > 60:
+                    return "You are starting to get tired maybe take a break and rest";
+            }
+            return string.Empty;
+        }
         public List<string> GetCompass(Car statsCar)
         {
             var compass = new List<string>();
@@ -79,20 +91,6 @@ namespace ServiceLibrary
             }
             return compass;
         }
-        public string GetTirednessWarning(Driver statsDriver)
-        {
-            switch (statsDriver.Tiredness)
-            {
-                case >= 100:
-                    return "WARNING! You are almost sleep please take a break and rest.";
-                case > 80:
-                    return "You are very tired please take a break and rest.";
-                case > 60:
-                    return "You are starting to get tired maybe take a break and rest";
-            }
-            return string.Empty;
-        }
-
         public string GetCurrentStats(Car statsCar, Driver statsDriver)
         {
             var fuel = "       ";
@@ -147,6 +145,58 @@ namespace ServiceLibrary
                    $"{tiredness}                         {compass[3]}" +
                    $"\r\n                                                                                  {compass[4]}" +
                    $"\r\n       Hunger: {hungerString}\r\n{hunger}\r\n";
+        }
+
+        public string GetLastAction(CarActions carAction, DriverActions driverAction)
+        {
+            var lastAction = "\r\n";
+            var space = string.Empty;
+            if (carAction != CarActions.Default)
+            {
+                switch (carAction)
+                {
+                    case CarActions.TurnLeft:
+                        lastAction = "You turned left.\r\n";
+                        break;
+                    case CarActions.TurnRight:
+                        lastAction = "You turned right.\r\n";
+                    
+                        break;
+                    case CarActions.DriveForwards:
+                        lastAction = "You drove forwards.\r\n";
+                        break;
+                    case CarActions.DriveBackwards:
+                        lastAction = "You drove backwards.\r\n";
+                        break;
+                    case CarActions.Start:
+                        lastAction = "You started the car.\r\n";
+                        break;
+                    case CarActions.Stop:
+                        lastAction = "You stopped the car.\r\n";
+                        break;
+                }
+            }
+            if (driverAction != DriverActions.Default)
+            {
+                switch (driverAction)
+                {
+                    case DriverActions.Drive:
+                        lastAction = "You Drove the car\r\n";
+                        break;
+                    case DriverActions.FillUpGas:
+                        lastAction = "You filled the car with gas\r\n";
+                        break;
+                    case DriverActions.Rest:
+                        lastAction = "You took a rest and regained energy\r\n";
+                        break;
+                    case DriverActions.Eat:
+                        lastAction = "You ate some food\r\n";
+                        break;
+                }
+            }
+            space = TextSpacer.SpaceText(50, lastAction.Length / 2);
+            lastAction = $"\r\n{space}{lastAction}";
+            return lastAction;
         }
     }
 }

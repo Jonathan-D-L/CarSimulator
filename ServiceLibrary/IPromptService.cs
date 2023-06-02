@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UtilityLibrary;
 
 namespace ServiceLibrary
 {
@@ -17,5 +18,6 @@ namespace ServiceLibrary
         string GetGameTitle();
         string GetTirednessWarning(Driver statsDriver);
         List<string> GetCompass(Car statsCar);
+        string GetLastAction(CarActions carAction, DriverActions driverAction);
     }
 }
