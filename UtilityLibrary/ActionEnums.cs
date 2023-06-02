@@ -8,39 +8,39 @@ namespace UtilityLibrary
 {
     public enum CarActions
     {
+        Default,
         DriveForwards,
         DriveBackwards,
         TurnLeft,
         TurnRight,
         FillUpGas,
-        Stop,
         Start,
-        Default
+        Stop
     }
 
     public enum DriverActions
     {
+        Default,
         Drive,
         FillUpGas,
         Rest,
-        Eat,
-        Default
+        Eat
     }
 
     public enum CurrentDirection
     {
+        Default,
         North,
         South,
         West,
-        East,
-        Default
+        East
     }
     public enum Hunger
     {
+        Default = 0,
         Full = 5,
         Hungry = 10,
-        Starving = 11,
-        Default = -1
+        Starving = 11
     }
 
 }

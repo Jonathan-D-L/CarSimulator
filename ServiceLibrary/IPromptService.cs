@@ -19,5 +19,6 @@ namespace ServiceLibrary
         string GetTirednessWarning(Driver statsDriver);
         List<string> GetCompass(Car statsCar);
         string GetLastAction(CarActions carAction, DriverActions driverAction);
+        string GetHungerWarning(Driver statsDriver);
     }
 }

@@ -26,7 +26,7 @@ namespace CarSimulator
             while (true)
             {
                 var crashed = CarCrashChance.CrashChance(crashThreshold);
-                if (crashed && selector < 4)
+                if ((crashed && selector < 4) || statsDriver.Hunger >= (Hunger)16)
                 {
                     //game over
                 }
@@ -62,6 +62,18 @@ namespace CarSimulator
                 else if (!outOfGas)
                 {
                     warnings.RemoveAll(s => s.Equals(_promptService.GetOutOfGasWarning()));
+                }
+
+                if (statsDriver.Hunger > Hunger.Full && statsDriver.Hunger <= Hunger.Hungry && !warnings.Contains(_promptService.GetHungerWarning(statsDriver)))
+                {
+                    warnings.Add(_promptService.GetHungerWarning(statsDriver));
+                }
+                else if (statsDriver.Hunger > Hunger.Starving && !warnings.Contains(_promptService.GetHungerWarning(statsDriver)))
+                {
+
+                    warnings.RemoveAll(s => s.Contains(nameof(Hunger.Hungry).ToLower()));
+                    warnings.Add(_promptService.GetHungerWarning(statsDriver));
+
                 }
 
                 var options = _promptService.GetGameOptions();

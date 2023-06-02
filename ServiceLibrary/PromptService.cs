@@ -40,7 +40,22 @@ namespace ServiceLibrary
         }
         public string GetOutOfGasWarning()
         {
-            return "out of gas please fill up gas.";
+            return "You are out of gas please fill up gas to continue driving.";
+        }
+        public string GetHungerWarning(Driver statsDriver)
+        {
+            var hungerWarning = string.Empty;
+            switch (statsDriver.Hunger)
+            {
+                case > Hunger.Full and <= Hunger.Hungry:
+                    hungerWarning = "You are hungry you should eat something!";
+                    break;
+                case > Hunger.Starving:
+                    hungerWarning = "WARNING! You are starving you need to eat something!";
+                    break;
+            }
+
+            return hungerWarning;
         }
         public string GetTirednessWarning(Driver statsDriver)
         {
