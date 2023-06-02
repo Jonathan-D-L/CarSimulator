@@ -9,9 +9,9 @@ namespace CarSimulator
 {
     public class ActionHandler
     {
-        private readonly ICarActionService _carActionService;
+        private readonly IActionService _carActionService;
 
-        public ActionHandler(ICarActionService carActionService)
+        public ActionHandler(IActionService carActionService)
         {
             _carActionService = carActionService;
         }

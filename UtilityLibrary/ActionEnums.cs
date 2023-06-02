@@ -21,7 +21,8 @@ namespace UtilityLibrary
     {
         FillUpGas,
         Rest,
-        Eat
+        Eat,
+        Default
     }
 
     public enum CurrentDirection
