@@ -72,7 +72,7 @@ namespace ServiceLibrary
         }
         public Car SetCarStats(Car statsCar, CarActions carAction)
         {
-            if (statsCar.Fuel <= 0) { statsCar.Fuel = 0; return statsCar; }
+            if (statsCar.Fuel <= 0 && carAction != CarActions.FillUpGas) { statsCar.Fuel = 0; return statsCar; }
             switch (carAction)
             {
                 case CarActions.TurnLeft:
@@ -93,6 +93,7 @@ namespace ServiceLibrary
         }
         public Driver SetDriverStats(Driver statsDriver, DriverActions driverAction)
         {
+            if (statsDriver.Tiredness >= 100 && driverAction != DriverActions.Rest) { statsDriver.Tiredness = 100; return statsDriver; }
             switch (driverAction)
             {
                 case DriverActions.Drive:

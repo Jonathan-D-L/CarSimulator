@@ -12,7 +12,10 @@ namespace ServiceLibrary
         List<string> GetStartOptions();
         List<string> GetGameOptions();
         string GetStartPrompt();
-        string GetCurrentStatsStrung(Car statsCar, Driver statsDriver);
-        string GetOutOfGasPrompt();
+        string GetCurrentStats(Car statsCar, Driver statsDriver);
+        string GetOutOfGasWarning();
+        string GetGameTitle();
+        string GetTirednessWarning(Driver statsDriver);
+        List<string> GetCompass(Car statsCar);
     }
 }

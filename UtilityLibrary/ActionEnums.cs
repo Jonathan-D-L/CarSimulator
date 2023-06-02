@@ -32,13 +32,15 @@ namespace UtilityLibrary
         North,
         South,
         West,
-        East
+        East,
+        Default
     }
     public enum Hunger
     {
         Full = 5,
         Hungry = 10,
-        Starving = 11
+        Starving = 11,
+        Default = -1
     }
 
 }

@@ -16,15 +16,52 @@ namespace CarSimulator
         public void Game()
         {
             var selector = 0;
+            var crashThreshold = 0;
+            var warnings = new List<string>();
             var statsCar = _actionService.GetCarStats();
             var statsDriver = _actionService.GetDriverStats();
             bool outOfGas = false;
-            var prompt = "";
             while (true)
             {
+                var crashed = CarCrashChance.CrashChance(crashThreshold);
+                if (crashed && selector < 4)
+                {
+                    //game over
+                }
+
+                var prompt = _promptService.GetGameTitle();
+
+                if ((statsDriver.Tiredness > 60 && statsDriver.Tiredness < 80) && !warnings.Any(s => s.Equals(_promptService.GetTirednessWarning(statsDriver))))
+                {
+                    warnings.Clear();
+                    crashThreshold = 10;
+                    warnings.Add(_promptService.GetTirednessWarning(statsDriver));
+                }
+                else if ((statsDriver.Tiredness > 80) && !warnings.Any(s => s.Equals(_promptService.GetTirednessWarning(statsDriver))))
+                {
+                    warnings.Clear();
+                    crashThreshold = 20;
+                    warnings.Add(_promptService.GetTirednessWarning(statsDriver));
+                }
+                else if ((statsDriver.Tiredness == 100) && !warnings.Any(s => s.Equals(_promptService.GetTirednessWarning(statsDriver))))
+                {
+                    warnings.Clear();
+                    crashThreshold = 70;
+                    warnings.Add(_promptService.GetTirednessWarning(statsDriver));
+                }
+
+                if (outOfGas && !warnings.Any(s => s.Equals(_promptService.GetOutOfGasWarning())))
+                {
+                    warnings.Add(_promptService.GetOutOfGasWarning());
+                }
+                else if (!outOfGas)
+                {
+                    warnings.RemoveAll(s => s.Equals(_promptService.GetOutOfGasWarning()));
+                }
+
                 var options = _promptService.GetGameOptions();
-                var stats = _promptService.GetCurrentStatsStrung(statsCar, statsDriver);
-                selector = Selector.GetSelections(selector, options, prompt, stats);
+                var stats = _promptService.GetCurrentStats(statsCar, statsDriver);
+                selector = Selector.GetSelections(selector, options, prompt, stats, warnings);
                 switch (selector)
                 {
                     case 0:
@@ -54,12 +91,15 @@ namespace CarSimulator
                         statsDriver = _actionService.SetDriverStats(statsDriver, DriverActions.Drive);
                         break;
                     case 4:
+                        //rest
                         statsDriver = _actionService.SetDriverStats(statsDriver, DriverActions.Rest);
+                        crashThreshold = 0;
                         break;
                     case 5:
                         //fill up gas
                         statsCar = _actionService.SetCarStats(statsCar, CarActions.FillUpGas);
                         statsDriver = _actionService.SetDriverStats(statsDriver, DriverActions.FillUpGas);
+                        outOfGas = false;
                         break;
                     case 6:
                         //eat
@@ -68,24 +108,6 @@ namespace CarSimulator
                     case 7:
                         //quit
                         return;
-                }
-
-                if (outOfGas)
-                {
-                    prompt = _promptService.GetOutOfGasPrompt();
-                }
-
-                switch (statsDriver.Tiredness)
-                {
-                    case >= 100:
-                        prompt = "service tired fell asleep depending on action game crash roll for crash or car is stopped fell asleep game over";
-                        break;
-                    case > 80:
-                        prompt = "service tired severe";
-                        break;
-                    case > 60:
-                        prompt = "service tired warning";
-                        break;
                 }
             }
         }

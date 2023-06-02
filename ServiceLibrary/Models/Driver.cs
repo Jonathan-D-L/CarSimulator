@@ -4,7 +4,7 @@ namespace ServiceLibrary.Models
 {
     public class Driver
     {
-        public double Tiredness { get; set; }
+        public int Tiredness { get; set; }
         public Hunger Hunger { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace UtilityLibrary
 {
     public class Selector
     {
-        public static int GetSelections(int selector, List<string> options, string prompt, string stats)
+        public static int GetSelections(int selector, List<string> options, string prompt, string stats, List<string> warnings)
         {
             while (true)
             {
@@ -19,12 +19,26 @@ namespace UtilityLibrary
                 {
                     if (selector == index)
                     {
-                        Console.WriteLine($"> {option}");
+                        Console.Write($"     > {option}");
                     }
                     else
                     {
-                        Console.WriteLine($"  {option}");
+                        Console.Write($"       {option}");
                     }
+
+                    if (warnings != null)
+                    {
+                        var space = TextSpacer.SpaceText(35, option);
+                        if (warnings.Count > index)
+                        {
+                            Console.Write($"{space}{warnings[index]}\r\n");
+                        }
+                        else
+                        {
+                            Console.Write($"\r\n");
+                        }
+                    }
+
                     index++;
                 }
                 Console.WriteLine(stats);

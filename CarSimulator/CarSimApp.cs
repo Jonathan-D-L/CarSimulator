@@ -18,11 +18,14 @@ public class CarSimApp
     public void Run()
     {
         var selector = 0;
+
+        Console.CursorVisible = false;
         while (true)
         {
             var options = _promptService.GetStartOptions();
-            var prompt = _promptService.GetStartPrompt();
-            selector = Selector.GetSelections(selector, options, prompt, "");
+            var prompt = _promptService.GetGameTitle();
+            prompt += _promptService.GetStartPrompt();
+            selector = Selector.GetSelections(selector, options, prompt, string.Empty, new List<string>());
             if (selector == 0)
             {
                 _carGame.Game();
