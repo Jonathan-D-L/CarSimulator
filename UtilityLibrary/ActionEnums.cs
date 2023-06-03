@@ -43,4 +43,12 @@ namespace UtilityLibrary
         Starving = 11
     }
 
+    public enum GameOver
+    {
+        Default,
+        Starved,
+        Crashed,
+        FellAsleep
+    }
+
 }

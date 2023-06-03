@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ServiceLibrary.Models;
+﻿using ServiceLibrary.Models;
 using UtilityLibrary;
 
 namespace ServiceLibrary
@@ -22,6 +17,8 @@ namespace ServiceLibrary
         {
             return new Driver
             {
+                GivenName = "Jon",
+                SurName = "Doe",
                 Tiredness = 0,
                 Hunger = 0
             };

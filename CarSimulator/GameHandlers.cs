@@ -66,5 +66,50 @@ namespace CarSimulator
 
             return crashThreshold;
         }
+
+        public bool GameOverHandler(int crashThreshold, int selector, Driver statsDriver, Car statsCar, ref int tirednessThreshold)
+        {
+            var crashed = CarCrashChance.CrashChance(crashThreshold);
+            if (crashed && selector < 4 && statsCar.Fuel != 0)
+            {
+                Console.Clear();
+                Console.WriteLine(_promptService.GetGameTitle());
+                Console.WriteLine(_promptService.GetGameOverMessage(GameOver.Crashed, statsDriver));
+                Thread.Sleep(2000);
+                Console.ReadKey();
+                return true;
+            }
+
+            if (statsDriver.Hunger >= (Hunger)16)
+            {
+                Console.Clear();
+                Console.WriteLine(_promptService.GetGameTitle());
+                Console.WriteLine(_promptService.GetGameOverMessage(GameOver.Starved, statsDriver));
+                Thread.Sleep(2000);
+                Console.ReadKey();
+                return true;
+            }
+
+            switch (statsDriver.Tiredness)
+            {
+                case 0:
+                    tirednessThreshold = 0;
+                    break;
+                case 100:
+                    tirednessThreshold++;
+                    if (tirednessThreshold >= 5)
+                    {
+                        Console.Clear();
+                        Console.WriteLine(_promptService.GetGameTitle());
+                        Console.WriteLine(_promptService.GetGameOverMessage(GameOver.FellAsleep, statsDriver));
+                        Thread.Sleep(2000);
+                        Console.ReadKey();
+                        return true;
+                    }
+
+                    break;
+            }
+            return false;
+        }
     }
 }

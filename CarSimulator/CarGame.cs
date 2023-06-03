@@ -1,4 +1,5 @@
-﻿using ServiceLibrary;
+﻿using Microsoft.VisualBasic;
+using ServiceLibrary;
 using ServiceLibrary.Models;
 using UtilityLibrary;
 
@@ -19,28 +20,27 @@ namespace CarSimulator
         {
             var selector = 0;
             var crashThreshold = 0;
+            var tirednessThreshold = 0;
             var warnings = new List<string>();
-            var driver = _randomDriverApiService.FetchRandomDriver();
             var statsCar = _actionService.GetCarStats();
+            var randomDriver = _randomDriverApiService.FetchRandomDriver();
             var statsDriver = _actionService.GetDriverStats();
+            if (randomDriver != null)
+            {
+                statsDriver = randomDriver.Result;
+            }
             var outOfGas = false;
             var lastCarAction = CarActions.Default;
             var lastDriverAction = DriverActions.Default;
             var gameHandler = new GameHandlers(_promptService, _actionService);
             while (true)
             {
-                var crashed = CarCrashChance.CrashChance(crashThreshold);
-                if ((crashed && selector < 4) || statsDriver.Hunger >= (Hunger)16)
-                {
-                    //game over
-                }
-
+                if (gameHandler.GameOverHandler(crashThreshold, selector, statsDriver, statsCar, ref tirednessThreshold)) break;
                 var prompt = _promptService.GetGameTitle();
-                prompt += $"       Driver: {driver.Result.GivenName} {driver.Result.SurName}.";
-                prompt += _promptService.GetLastAction(lastCarAction, lastDriverAction);
+                prompt += $"       Driver: {statsDriver.GivenName} {statsDriver.SurName}.";
+                prompt += _promptService.GetLastAction(lastCarAction, lastDriverAction, statsDriver);
                 lastCarAction = CarActions.Default;
                 lastDriverAction = DriverActions.Default;
-
                 crashThreshold = gameHandler.HandleTiredness(statsDriver, warnings, crashThreshold);
                 gameHandler.HandleGasWarnings(outOfGas, warnings);
                 gameHandler.HandleHungerWarnings(statsDriver, warnings);
@@ -105,7 +105,5 @@ namespace CarSimulator
                 }
             }
         }
-
-
     }
 }

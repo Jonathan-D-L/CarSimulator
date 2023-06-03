@@ -34,13 +34,38 @@ namespace ServiceLibrary
                    "\r\n   |   --|     |    -|  |__   |-   -| | | |  |  |  |__|     | | | |  |  |    -|   (   _    _ _\\" +
                    "\r\n   |_____|__|__|__|__|  |_____|_____|_|_|_|_____|_____|__|__| |_| |_____|__|__|   =`-(_)--(_)-'\r\n\r\n";
         }
+
+        public string GetGameOverMessage(GameOver gameOverReason, Driver statsDriver)
+        {
+            var gameOver = "                    __     __    _      ____      ___   _      ____  ___  \r\n" +
+                           "                   / /`_  / /\\  | |\\/| | |_      / / \\ \\ \\  / | |_  | |_) \r\n" +
+                           "                   \\_\\_/ /_/--\\ |_|  | |_|__     \\_\\_/  \\_\\/  |_|__ |_| \\";
+
+            switch (gameOverReason)
+            {
+                case GameOver.Crashed:
+                    var gameOverString = $"{statsDriver.GivenName} {statsDriver.SurName} Crashed due to being tired. Press any key to continue...";
+                    var space = TextSpacer.SpaceText(45, gameOverString.Length / 2);
+                    return $"{gameOver}\r\n\r\n\r\n{space}{gameOverString}";
+                case GameOver.Starved:
+                    gameOverString = $"{statsDriver.GivenName} {statsDriver.SurName} Starved to death. Press any key to continue...";
+                    space = TextSpacer.SpaceText(45, gameOverString.Length / 2);
+                    return $"{gameOver}\r\n\r\n\r\n{space}{gameOverString}";
+                case GameOver.FellAsleep:
+                    gameOverString = $"{statsDriver.GivenName} {statsDriver.SurName} Fell asleep. Press any key to continue...";
+                    space = TextSpacer.SpaceText(45, gameOverString.Length / 2);
+                    return $"{gameOver}\r\n\r\n\r\n{space}{gameOverString}";
+            }
+
+            return string.Empty;
+        }
         public string GetStartPrompt()
         {
             return "    Welcome to Car Simulator! Use Arrow keys or WASD to select options.\r\n";
         }
         public string GetOutOfGasWarning()
         {
-            return "You are out of gas please fill up gas to continue driving.";
+            return "The car is out of gas please fill up on gas to continue driving.";
         }
         public string GetHungerWarning(Driver statsDriver)
         {
@@ -48,10 +73,10 @@ namespace ServiceLibrary
             switch (statsDriver.Hunger)
             {
                 case > Hunger.Full and <= Hunger.Hungry:
-                    hungerWarning = "You are hungry you should eat something!";
+                    hungerWarning = $"{statsDriver.GivenName} is hungry and should eat something!";
                     break;
                 case > Hunger.Starving:
-                    hungerWarning = "WARNING! You are starving you need to eat something!";
+                    hungerWarning = $"WARNING! {statsDriver.GivenName} is starving and needs to eat something!";
                     break;
             }
 
@@ -62,11 +87,11 @@ namespace ServiceLibrary
             switch (statsDriver.Tiredness)
             {
                 case >= 100:
-                    return "WARNING! You are almost sleep please take a break and rest.";
+                    return $"WARNING! {statsDriver.GivenName} is almost asleep and needs to take a break!";
                 case > 80:
-                    return "You are very tired please take a break and rest.";
+                    return $"{statsDriver.GivenName} is very tired and needs to take a break.";
                 case > 60:
-                    return "You are starting to get tired maybe take a break and rest";
+                    return $"{statsDriver.GivenName} is starting to get tired, maybe take a break.";
             }
             return string.Empty;
         }
@@ -76,32 +101,40 @@ namespace ServiceLibrary
             switch (statsCar.CurrentDirection)
             {
                 case CurrentDirection.North:
-                    compass.Add("    N");
-                    compass.Add("    |");
-                    compass.Add("W --+-- E");
-                    compass.Add("    |");
-                    compass.Add("    S");
+                    compass.Add(" [Direction]");
+                    compass.Add(" ___________");
+                    compass.Add("/     N     \\");
+                    compass.Add("█     ↑     █");
+                    compass.Add("█ W --+-- E █");
+                    compass.Add("█     |     █");
+                    compass.Add("\\_____S_____/");
                     break;
                 case CurrentDirection.West:
-                    compass.Add("    W");
-                    compass.Add("    |");
-                    compass.Add("S --+-- N");
-                    compass.Add("    |");
-                    compass.Add("    E");
+                    compass.Add(" [Direction]");
+                    compass.Add(" ___________");
+                    compass.Add("/     W     \\");
+                    compass.Add("█     ↑     █");
+                    compass.Add("█ S --+-- N █");
+                    compass.Add("█     |     █");
+                    compass.Add("\\_____E_____/");
                     break;
                 case CurrentDirection.South:
-                    compass.Add("    S");
-                    compass.Add("    |");
-                    compass.Add("E --+-- W");
-                    compass.Add("    |");
-                    compass.Add("    N");
+                    compass.Add(" [Direction]");
+                    compass.Add(" ___________");
+                    compass.Add("/     S     \\");
+                    compass.Add("█     ↑     █");
+                    compass.Add("█ E --+-- W █");
+                    compass.Add("█     |     █");
+                    compass.Add("\\_____N_____/");
                     break;
                 case CurrentDirection.East:
-                    compass.Add("    E");
-                    compass.Add("    |");
-                    compass.Add("N --+-- S");
-                    compass.Add("    |");
-                    compass.Add("    W");
+                    compass.Add(" [Direction]");
+                    compass.Add(" ___________ ");
+                    compass.Add("/     E     \\");
+                    compass.Add("█     ↑     █");
+                    compass.Add("█ N --+-- S █");
+                    compass.Add("█     |     █");
+                    compass.Add("\\_____W_____/");
                     break;
             }
             return compass;
@@ -137,7 +170,7 @@ namespace ServiceLibrary
             if (statsDriver.Hunger <= Hunger.Full)
             {
                 hungerString = nameof(Hunger.Full);
-                hunger = "       ░░░░░░░░░░░░░░░░░░░░░░░░";
+                hunger = "       ████████████████████████";
             }
             else if (statsDriver.Hunger <= Hunger.Hungry)
             {
@@ -148,21 +181,26 @@ namespace ServiceLibrary
             else if (statsDriver.Hunger >= Hunger.Starving)
             {
                 hungerString = nameof(Hunger.Starving);
-                hunger = "       ████████████████████████";
+                hunger = "       ░░░░░░░░░░░░░░░░░░░░░░░░";
             }
 
             var compass = GetCompass(statsCar);
             var space = TextSpacer.SpaceText(63, statsDriver.Tiredness.ToString());
-            return $"\r\n       Direction: {statsCar.CurrentDirection}  " +
-                   $"\r\n\r\n       Fuel: {statsCar.Fuel}%\r\n{fuel}                         {compass[0]}" +
-                   $"\r\n                                                                                  {compass[1]}" +
-                   $"\r\n       Tiredness: {statsDriver.Tiredness}%{space}{compass[2]}\r\n" +
-                   $"{tiredness}                         {compass[3]}" +
-                   $"\r\n                                                                                  {compass[4]}" +
-                   $"\r\n       Hunger: {hungerString}\r\n{hunger}\r\n";
+            var space2 = TextSpacer.SpaceText(68, statsCar.Fuel.ToString());
+            var space3 = TextSpacer.SpaceText(67, hungerString);
+            return $"\r\n       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ STATS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" +
+                   $"\r\n" +
+                   $"\r\n       Fuel: {statsCar.Fuel}%{space2}{compass[0]}" +
+                   $"\r\n{fuel}                         {compass[1]}" +
+                   $"\r\n                                                                                  {compass[2]}" +
+                   $"\r\n       Tiredness: {statsDriver.Tiredness}%{space}{compass[3]}\r\n" +
+                   $"{tiredness}                         {compass[4]}" +
+                   $"\r\n                                                                                  {compass[5]}" +
+                   $"\r\n       Hunger: {hungerString}{space3}{compass[6]}" +
+                   $"\r\n{hunger}";
         }
 
-        public string GetLastAction(CarActions carAction, DriverActions driverAction)
+        public string GetLastAction(CarActions carAction, DriverActions driverAction, Driver statsDriver)
         {
             var lastAction = "\r\n";
             var space = string.Empty;
@@ -171,22 +209,22 @@ namespace ServiceLibrary
                 switch (carAction)
                 {
                     case CarActions.TurnLeft:
-                        lastAction = "You turned left.\r\n";
+                        lastAction = $"{statsDriver.GivenName} turned left.\r\n";
                         break;
                     case CarActions.TurnRight:
-                        lastAction = "You turned right.\r\n";
+                        lastAction = $"{statsDriver.GivenName} turned right.\r\n";
                         break;
                     case CarActions.DriveForwards:
-                        lastAction = "You drove forwards.\r\n";
+                        lastAction = $"{statsDriver.GivenName} drove forwards.\r\n";
                         break;
                     case CarActions.DriveBackwards:
-                        lastAction = "You drove backwards.\r\n";
+                        lastAction = $"{statsDriver.GivenName} drove backwards.\r\n";
                         break;
                     case CarActions.Start:
-                        lastAction = "You started the car.\r\n";
+                        lastAction = $"{statsDriver.GivenName} started the car.\r\n";
                         break;
                     case CarActions.Stop:
-                        lastAction = "You stopped the car.\r\n";
+                        lastAction = $"{statsDriver.GivenName} stopped the car.\r\n";
                         break;
                     case CarActions.FillUpGas:
                         lastAction = "The gas tank is already full.\r\n";
@@ -198,16 +236,16 @@ namespace ServiceLibrary
                 switch (driverAction)
                 {
                     case DriverActions.Drive:
-                        lastAction = "You Drove the car\r\n";
+                        lastAction = $"{statsDriver.GivenName} is driving the car.\r\n";
                         break;
                     case DriverActions.FillUpGas:
-                        lastAction = "You filled the car with gas\r\n";
+                        lastAction = $"{statsDriver.GivenName} filled up the car with gas.\r\n";
                         break;
                     case DriverActions.Rest:
-                        lastAction = "You took a rest and regained energy\r\n";
+                        lastAction = $"{statsDriver.GivenName} took a break and regained some energy.\r\n";
                         break;
                     case DriverActions.Eat:
-                        lastAction = "You ate some food\r\n";
+                        lastAction = $"{statsDriver.GivenName} consumed some food and is now full and satisfied.\r\n";
                         break;
                 }
             }
