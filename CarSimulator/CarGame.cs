@@ -8,16 +8,19 @@ namespace CarSimulator
     {
         private readonly IPromptService _promptService;
         private readonly IActionService _actionService;
-        public CarGame(IPromptService promptService, IActionService actionService)
+        private readonly IRandomDriverApiService _randomDriverApiService;
+        public CarGame(IPromptService promptService, IActionService actionService, IRandomDriverApiService randomDriverApiService)
         {
             _promptService = promptService;
             _actionService = actionService;
+            _randomDriverApiService = randomDriverApiService;
         }
         public void Game()
         {
             var selector = 0;
             var crashThreshold = 0;
             var warnings = new List<string>();
+            var driver = _randomDriverApiService.FetchRandomDriver();
             var statsCar = _actionService.GetCarStats();
             var statsDriver = _actionService.GetDriverStats();
             var outOfGas = false;
@@ -33,6 +36,7 @@ namespace CarSimulator
                 }
 
                 var prompt = _promptService.GetGameTitle();
+                prompt += $"       Driver: {driver.Result.GivenName} {driver.Result.SurName}.";
                 prompt += _promptService.GetLastAction(lastCarAction, lastDriverAction);
                 lastCarAction = CarActions.Default;
                 lastDriverAction = DriverActions.Default;
