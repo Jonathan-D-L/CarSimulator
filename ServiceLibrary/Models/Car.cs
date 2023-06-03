@@ -4,7 +4,7 @@ namespace ServiceLibrary.Models
 {
     public class Car
     {
-        public double Fuel { get; set; }
+        public int Fuel { get; set; }
         public CurrentDirection CurrentDirection { get; set; }
     }
 }

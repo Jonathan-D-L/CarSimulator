@@ -23,6 +23,7 @@ namespace CarSimulator
             var outOfGas = false;
             var lastCarAction = CarActions.Default;
             var lastDriverAction = DriverActions.Default;
+            var gameHandler = new GameHandlers(_promptService, _actionService);
             while (true)
             {
                 var crashed = CarCrashChance.CrashChance(crashThreshold);
@@ -36,45 +37,9 @@ namespace CarSimulator
                 lastCarAction = CarActions.Default;
                 lastDriverAction = DriverActions.Default;
 
-                if ((statsDriver.Tiredness > 60 && statsDriver.Tiredness < 80) && !warnings.Any(s => s.Equals(_promptService.GetTirednessWarning(statsDriver))))
-                {
-                    warnings.Clear();
-                    crashThreshold = 10;
-                    warnings.Add(_promptService.GetTirednessWarning(statsDriver));
-                }
-                else if ((statsDriver.Tiredness > 80) && !warnings.Any(s => s.Equals(_promptService.GetTirednessWarning(statsDriver))))
-                {
-                    warnings.Clear();
-                    crashThreshold = 20;
-                    warnings.Add(_promptService.GetTirednessWarning(statsDriver));
-                }
-                else if ((statsDriver.Tiredness == 100) && !warnings.Any(s => s.Equals(_promptService.GetTirednessWarning(statsDriver))))
-                {
-                    warnings.Clear();
-                    crashThreshold = 70;
-                    warnings.Add(_promptService.GetTirednessWarning(statsDriver));
-                }
-
-                if (outOfGas && !warnings.Any(s => s.Equals(_promptService.GetOutOfGasWarning())))
-                {
-                    warnings.Add(_promptService.GetOutOfGasWarning());
-                }
-                else if (!outOfGas)
-                {
-                    warnings.RemoveAll(s => s.Equals(_promptService.GetOutOfGasWarning()));
-                }
-
-                if (statsDriver.Hunger > Hunger.Full && statsDriver.Hunger <= Hunger.Hungry && !warnings.Contains(_promptService.GetHungerWarning(statsDriver)))
-                {
-                    warnings.Add(_promptService.GetHungerWarning(statsDriver));
-                }
-                else if (statsDriver.Hunger > Hunger.Starving && !warnings.Contains(_promptService.GetHungerWarning(statsDriver)))
-                {
-
-                    warnings.RemoveAll(s => s.Contains(nameof(Hunger.Hungry).ToLower()));
-                    warnings.Add(_promptService.GetHungerWarning(statsDriver));
-
-                }
+                crashThreshold = gameHandler.HandleTiredness(statsDriver, warnings, crashThreshold);
+                gameHandler.HandleGasWarnings(outOfGas, warnings);
+                gameHandler.HandleHungerWarnings(statsDriver, warnings);
 
                 var options = _promptService.GetGameOptions();
                 var stats = _promptService.GetCurrentStats(statsCar, statsDriver);
@@ -119,6 +84,7 @@ namespace CarSimulator
                         break;
                     case 5:
                         //fill up gas
+                        if (statsCar.Fuel == 100) { lastCarAction = CarActions.FillUpGas; break; }
                         statsCar = _actionService.SetCarStats(statsCar, CarActions.FillUpGas);
                         statsDriver = _actionService.SetDriverStats(statsDriver, DriverActions.FillUpGas);
                         lastDriverAction = DriverActions.FillUpGas;
@@ -135,5 +101,7 @@ namespace CarSimulator
                 }
             }
         }
+
+
     }
 }

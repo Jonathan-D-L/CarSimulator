@@ -175,7 +175,6 @@ namespace ServiceLibrary
                         break;
                     case CarActions.TurnRight:
                         lastAction = "You turned right.\r\n";
-                    
                         break;
                     case CarActions.DriveForwards:
                         lastAction = "You drove forwards.\r\n";
@@ -188,6 +187,9 @@ namespace ServiceLibrary
                         break;
                     case CarActions.Stop:
                         lastAction = "You stopped the car.\r\n";
+                        break;
+                    case CarActions.FillUpGas:
+                        lastAction = "The gas tank is already full.\r\n";
                         break;
                 }
             }
