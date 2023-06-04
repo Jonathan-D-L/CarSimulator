@@ -10,5 +10,6 @@ namespace ServiceLibrary
         CurrentDirection GetCurrentDirection(Car statsCar, CarActions carActions);
         Car SetCarStats(Car statsCar, CarActions carAction);
         Driver SetDriverStats(Driver statsDriver, DriverActions driverAction);
+        void PreventStatOverflow(Driver statsDriver);
     }
 }

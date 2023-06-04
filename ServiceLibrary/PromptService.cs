@@ -214,10 +214,10 @@ namespace ServiceLibrary
                     case CarActions.TurnRight:
                         lastAction = $"{statsDriver.GivenName} turned right.\r\n";
                         break;
-                    case CarActions.DriveForwards:
+                    case CarActions.DriveForward:
                         lastAction = $"{statsDriver.GivenName} drove forwards.\r\n";
                         break;
-                    case CarActions.DriveBackwards:
+                    case CarActions.DriveBackward:
                         lastAction = $"{statsDriver.GivenName} drove backwards.\r\n";
                         break;
                     case CarActions.Start:

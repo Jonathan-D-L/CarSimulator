@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualBasic;
-using ServiceLibrary;
-using ServiceLibrary.Models;
+﻿using ServiceLibrary;
 using UtilityLibrary;
 
 namespace CarSimulator
@@ -35,6 +33,7 @@ namespace CarSimulator
             var gameHandler = new GameHandlers(_promptService, _actionService);
             while (true)
             {
+                _actionService.PreventStatOverflow(statsDriver);
                 if (gameHandler.GameOverHandler(crashThreshold, selector, statsDriver, statsCar, ref tirednessThreshold)) break;
                 var prompt = _promptService.GetGameTitle();
                 prompt += $"       Driver: {statsDriver.GivenName} {statsDriver.SurName}.";
@@ -68,15 +67,15 @@ namespace CarSimulator
                         break;
                     case 2:
                         //drive forwards
-                        statsCar = _actionService.SetCarStats(statsCar, CarActions.DriveForwards);
-                        lastCarAction = CarActions.DriveForwards;
+                        statsCar = _actionService.SetCarStats(statsCar, CarActions.DriveForward);
+                        lastCarAction = CarActions.DriveForward;
                         if (statsCar.Fuel == 0) { outOfGas = true; break; }
                         statsDriver = _actionService.SetDriverStats(statsDriver, DriverActions.Drive);
                         break;
                     case 3:
                         //reverse
-                        statsCar = _actionService.SetCarStats(statsCar, CarActions.DriveBackwards);
-                        lastCarAction = CarActions.DriveBackwards;
+                        statsCar = _actionService.SetCarStats(statsCar, CarActions.DriveBackward);
+                        lastCarAction = CarActions.DriveBackward;
                         if (statsCar.Fuel == 0) { outOfGas = true; break; }
                         statsDriver = _actionService.SetDriverStats(statsDriver, DriverActions.Drive);
                         break;

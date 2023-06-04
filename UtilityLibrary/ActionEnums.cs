@@ -9,8 +9,8 @@ namespace UtilityLibrary
     public enum CarActions
     {
         Default,
-        DriveForwards,
-        DriveBackwards,
+        DriveForward,
+        DriveBackward,
         TurnLeft,
         TurnRight,
         FillUpGas,

@@ -25,46 +25,50 @@ namespace ServiceLibrary
         }
         public CurrentDirection GetCurrentDirection(Car statsCar, CarActions carActions)
         {
-            if (statsCar.CurrentDirection == CurrentDirection.North)
+            switch (statsCar.CurrentDirection)
             {
-                switch (carActions)
-                {
-                    case CarActions.TurnLeft:
-                        return statsCar.CurrentDirection = CurrentDirection.West;
-                    case CarActions.TurnRight:
-                        return statsCar.CurrentDirection = CurrentDirection.East;
-                }
+                case CurrentDirection.North:
+                    switch (carActions)
+                    {
+                        case CarActions.TurnLeft:
+                            return statsCar.CurrentDirection = CurrentDirection.West;
+                        case CarActions.TurnRight:
+                            return statsCar.CurrentDirection = CurrentDirection.East;
+                    }
+
+                    break;
+                case CurrentDirection.West:
+                    switch (carActions)
+                    {
+                        case CarActions.TurnLeft:
+                            return statsCar.CurrentDirection = CurrentDirection.South;
+                        case CarActions.TurnRight:
+                            return statsCar.CurrentDirection = CurrentDirection.North;
+                    }
+
+                    break;
+                case CurrentDirection.South:
+                    switch (carActions)
+                    {
+                        case CarActions.TurnLeft:
+                            return statsCar.CurrentDirection = CurrentDirection.East;
+                        case CarActions.TurnRight:
+                            return statsCar.CurrentDirection = CurrentDirection.West;
+                    }
+
+                    break;
+                case CurrentDirection.East:
+                    switch (carActions)
+                    {
+                        case CarActions.TurnLeft:
+                            return statsCar.CurrentDirection = CurrentDirection.North;
+                        case CarActions.TurnRight:
+                            return statsCar.CurrentDirection = CurrentDirection.South;
+                    }
+
+                    break;
             }
-            if (statsCar.CurrentDirection == CurrentDirection.West)
-            {
-                switch (carActions)
-                {
-                    case CarActions.TurnLeft:
-                        return statsCar.CurrentDirection = CurrentDirection.South;
-                    case CarActions.TurnRight:
-                        return statsCar.CurrentDirection = CurrentDirection.North;
-                }
-            }
-            if (statsCar.CurrentDirection == CurrentDirection.South)
-            {
-                switch (carActions)
-                {
-                    case CarActions.TurnLeft:
-                        return statsCar.CurrentDirection = CurrentDirection.East;
-                    case CarActions.TurnRight:
-                        return statsCar.CurrentDirection = CurrentDirection.West;
-                }
-            }
-            if (statsCar.CurrentDirection == CurrentDirection.East)
-            {
-                switch (carActions)
-                {
-                    case CarActions.TurnLeft:
-                        return statsCar.CurrentDirection = CurrentDirection.North;
-                    case CarActions.TurnRight:
-                        return statsCar.CurrentDirection = CurrentDirection.South;
-                }
-            }
+
             return statsCar.CurrentDirection;
         }
         public Car SetCarStats(Car statsCar, CarActions carAction)
@@ -76,10 +80,10 @@ namespace ServiceLibrary
                 case CarActions.TurnRight:
                     statsCar.Fuel -= 1;
                     break;
-                case CarActions.DriveForwards:
+                case CarActions.DriveForward:
                     statsCar.Fuel -= 5;
                     break;
-                case CarActions.DriveBackwards:
+                case CarActions.DriveBackward:
                     statsCar.Fuel -= 3;
                     break;
                 case CarActions.FillUpGas:
@@ -107,9 +111,15 @@ namespace ServiceLibrary
                     break;
                 case DriverActions.Rest:
                     statsDriver.Tiredness = 0;
+                    statsDriver.Hunger += 1;
                     break;
             }
             return statsDriver;
+        }
+
+        public void PreventStatOverflow(Driver statsDriver)
+        {
+            SetDriverStats(statsDriver, DriverActions.Default);
         }
     }
 }
