@@ -1,4 +1,5 @@
-﻿using UtilityLibrary;
+﻿using System.Reflection.Metadata;
+using UtilityLibrary;
 
 namespace CarSimulator.Tests.Utilities;
 
@@ -11,25 +12,40 @@ public class CarCrashChanceTests
     {
         var crashThreshold = 0;
         var result = CarCrashChance.CrashChance(crashThreshold);
-        Assert.IsFalse(result);
+        Assert.IsFalse(result, "Expected probability to be 0%");
     }
     [TestMethod]
-    public void CrashChance_Threshold_Above_0()
+    public void CrashChance_Threshold_Probability_For_1()
     {
-        var crashThreshold = 1;
-        var results = new List<bool>();
-        for (var i = 0; i < 100; i++)
+        var threshold = 1;
+        var numCalls = 100;
+        var numTrials = 1000;
+        var numSuccesses = 0;
+        for (int i = 0; i < numTrials; i++)
         {
-            var result = CarCrashChance.CrashChance(crashThreshold);
-            results.Add(result);
+            var hasTrueResult = false;
+            for (int j = 0; j < numCalls; j++)
+            {
+                var result = CarCrashChance.CrashChance(threshold);
+                if (result)
+                {
+                    hasTrueResult = true;
+                    break;
+                }
+            }
+            if (hasTrueResult)
+            {
+                numSuccesses++;
+            }
         }
-        Assert.IsTrue(results.Any(r => r));
+        var probability = (double)numSuccesses / numTrials;
+        Assert.IsTrue(probability > 0.6, "Expected probability to be greater than 60%");
     }
     [TestMethod]
     public void CrashChance_Threshold_100()
     {
         var crashThreshold = 100;
         var result = CarCrashChance.CrashChance(crashThreshold);
-        Assert.IsTrue(result);
+        Assert.IsTrue(result, "Expected probability to be 100%");
     }
 }

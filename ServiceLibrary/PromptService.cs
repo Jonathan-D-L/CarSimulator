@@ -44,15 +44,15 @@ namespace ServiceLibrary
             switch (gameOverReason)
             {
                 case GameOver.Crashed:
-                    var gameOverString = $"{statsDriver.GivenName} {statsDriver.SurName} Crashed due to being tired. Press any key to continue...";
+                    var gameOverString = $"{statsDriver.GivenName} {statsDriver.SurName} {nameof(GameOver.Crashed)} due to being tired. Press any key to continue...";
                     var space = TextSpacer.SpaceText(45, gameOverString.Length / 2);
                     return $"{gameOver}\r\n\r\n\r\n{space}{gameOverString}";
                 case GameOver.Starved:
-                    gameOverString = $"{statsDriver.GivenName} {statsDriver.SurName} Starved to death. Press any key to continue...";
+                    gameOverString = $"{statsDriver.GivenName} {statsDriver.SurName} {nameof(GameOver.Starved)} to death. Press any key to continue...";
                     space = TextSpacer.SpaceText(45, gameOverString.Length / 2);
                     return $"{gameOver}\r\n\r\n\r\n{space}{gameOverString}";
-                case GameOver.FellAsleep:
-                    gameOverString = $"{statsDriver.GivenName} {statsDriver.SurName} Fell asleep. Press any key to continue...";
+                case GameOver.Dozed:
+                    gameOverString = $"{statsDriver.GivenName} {statsDriver.SurName} {nameof(GameOver.Dozed)} off. Press any key to continue...";
                     space = TextSpacer.SpaceText(45, gameOverString.Length / 2);
                     return $"{gameOver}\r\n\r\n\r\n{space}{gameOverString}";
             }
@@ -75,7 +75,7 @@ namespace ServiceLibrary
                 case > Hunger.Full and <= Hunger.Hungry:
                     hungerWarning = $"{statsDriver.GivenName} is hungry and should eat something!";
                     break;
-                case > Hunger.Starving:
+                case >= Hunger.Starving:
                     hungerWarning = $"WARNING! {statsDriver.GivenName} is starving and needs to eat something!";
                     break;
             }

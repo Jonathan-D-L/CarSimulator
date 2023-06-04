@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using ServiceLibrary;
+﻿using ServiceLibrary;
 using UtilityLibrary;
 
 namespace CarSimulator;
@@ -25,7 +24,7 @@ public class CarSimApp
             var options = _promptService.GetStartOptions();
             var prompt = _promptService.GetGameTitle();
             prompt += _promptService.GetStartPrompt();
-            selector = Selector.GetSelections(selector, options, prompt, string.Empty, new List<string>());
+            selector = Selector.GetSelection(selector, options, prompt, string.Empty, new List<string>());
             if (selector == 0)
             {
                 _carGame.Game();

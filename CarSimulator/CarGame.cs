@@ -46,7 +46,7 @@ namespace CarSimulator
 
                 var options = _promptService.GetGameOptions();
                 var stats = _promptService.GetCurrentStats(statsCar, statsDriver);
-                selector = Selector.GetSelections(selector, options, prompt, stats, warnings);
+                selector = Selector.GetSelection(selector, options, prompt, stats, warnings);
                 switch (selector)
                 {
                     case 0:

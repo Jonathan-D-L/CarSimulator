@@ -8,7 +8,7 @@ namespace UtilityLibrary
 {
     public class Selector
     {
-        public static int GetSelections(int selector, List<string> options, string prompt, string stats, List<string> warnings)
+        public static int GetSelection(int selector, List<string> options, string prompt, string stats, List<string> warnings)
         {
             while (true)
             {

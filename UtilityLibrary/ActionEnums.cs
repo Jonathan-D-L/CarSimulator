@@ -48,7 +48,7 @@ namespace UtilityLibrary
         Default,
         Starved,
         Crashed,
-        FellAsleep
+        Dozed
     }
 
 }

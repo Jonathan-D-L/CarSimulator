@@ -101,7 +101,7 @@ namespace CarSimulator
                     {
                         Console.Clear();
                         Console.WriteLine(_promptService.GetGameTitle());
-                        Console.WriteLine(_promptService.GetGameOverMessage(GameOver.FellAsleep, statsDriver));
+                        Console.WriteLine(_promptService.GetGameOverMessage(GameOver.Dozed, statsDriver));
                         Thread.Sleep(2000);
                         Console.ReadKey();
                         return true;
