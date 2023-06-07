@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceLibrary", "ServiceLi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UtilityLibrary", "UtilityLibrary\UtilityLibrary.csproj", "{9FB3ED82-272A-4553-94EF-AB4924A0C7D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarSimulator.Tests", "CarSimulator.Tests\CarSimulator.Tests.csproj", "{7F11015A-3C8B-4C3A-93C8-A2BE2754A3B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarSimulator.Tests", "CarSimulator.Tests\CarSimulator.Tests.csproj", "{7F11015A-3C8B-4C3A-93C8-A2BE2754A3B8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarSimulator.NUnitTests", "CarSimulator.NUintTests\CarSimulator.NUnitTests.csproj", "{0CEC6DB1-99C5-4592-B7CE-BCF373350276}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{7F11015A-3C8B-4C3A-93C8-A2BE2754A3B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F11015A-3C8B-4C3A-93C8-A2BE2754A3B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F11015A-3C8B-4C3A-93C8-A2BE2754A3B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CEC6DB1-99C5-4592-B7CE-BCF373350276}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CEC6DB1-99C5-4592-B7CE-BCF373350276}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CEC6DB1-99C5-4592-B7CE-BCF373350276}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CEC6DB1-99C5-4592-B7CE-BCF373350276}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
