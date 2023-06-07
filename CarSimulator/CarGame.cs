@@ -21,7 +21,7 @@ namespace CarSimulator
             var tirednessThreshold = 0;
             var warnings = new List<string>();
             var statsCar = _actionService.GetCarStats();
-            var randomDriver = _randomDriverApiService.FetchRandomDriver();
+            var randomDriver = _randomDriverApiService.GetRandomDriver();
             var statsDriver = _actionService.GetDriverStats();
             if (randomDriver != null)
             {

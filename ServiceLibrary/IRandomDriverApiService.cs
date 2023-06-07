@@ -4,6 +4,6 @@ namespace ServiceLibrary
 {
     public interface IRandomDriverApiService
     {
-        Task<Driver> FetchRandomDriver();
+        Task<Driver> GetRandomDriver();
     }
 }
