@@ -53,22 +53,4 @@ public class GetHungerWarningMoqTests
         Assert.AreEqual(hunger, result);
     }
 }
-public interface IHungerService
-{
-    Hunger MockHungerEnum(Driver statsDriver);
-}
-public class MockHungerService : IHungerService
-{
-    public Hunger MockHungerEnum(Driver statsDriver)
-    {
-        switch (statsDriver.Hunger)
-        {
-            case <= (Hunger)5:
-                return Hunger.Full;
-            case > (Hunger)5 and <= (Hunger)10:
-                return Hunger.Hungry;
-            case > (Hunger)10:
-                return Hunger.Starving;
-        }
-    }
-}
+
