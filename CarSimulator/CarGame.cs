@@ -33,7 +33,7 @@ namespace CarSimulator
             var gameHandler = new GameHandlers(_promptService, _actionService);
             while (true)
             {
-                _actionService.PreventStatOverflow(statsDriver);
+                warnings.Clear();
                 if (gameHandler.GameOverHandler(crashThreshold, selector, statsDriver, statsCar, ref tirednessThreshold)) break;
                 var prompt = _promptService.GetGameTitle();
                 prompt += $"       Driver: {statsDriver.GivenName} {statsDriver.SurName}.";
@@ -47,6 +47,7 @@ namespace CarSimulator
                 var options = _promptService.GetGameOptions();
                 var stats = _promptService.GetCurrentStats(statsCar, statsDriver);
                 selector = Selector.GetSelection(selector, options, prompt, stats, warnings);
+                _actionService.PreventStatOverflow(statsDriver);
                 switch (selector)
                 {
                     case 0:
