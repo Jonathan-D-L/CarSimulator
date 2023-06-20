@@ -16,7 +16,6 @@ public class RandomDriverApiServiceTests
         _randomDriverApiService = _randomDriverApiServiceMock.Object;
     }
 
-
     [TestMethod]
     public async Task Get_One_Random_Driver()
     {
@@ -27,18 +26,41 @@ public class RandomDriverApiServiceTests
             
         };
         _randomDriverApiServiceMock.Setup(repo => repo.GetRandomDriver()).ReturnsAsync(randomDriver);
+
         var result = await _randomDriverApiService.GetRandomDriver();
+
         Assert.AreEqual(randomDriver, result);
     }
+
     [TestMethod]
     public async Task Get_Random_Driver_Returns_Valid_Driver()
     {
         var randomDriverApiService = new RandomDriverApiService();
+
         var result = await randomDriverApiService.GetRandomDriver();
 
         Assert.IsNotNull(result);
+    }
+
+    [TestMethod]
+    public async Task Get_Random_Driver_Returns_Valid_GivenName()
+    {
+        var randomDriverApiService = new RandomDriverApiService();
+
+        var result = await randomDriverApiService.GetRandomDriver();
+
         Assert.IsFalse(string.IsNullOrEmpty(result.GivenName));
+    }
+
+    [TestMethod]
+    public async Task Get_Random_Driver_Returns_Valid_SurName()
+    {
+        var randomDriverApiService = new RandomDriverApiService();
+
+        var result = await randomDriverApiService.GetRandomDriver();
+
         Assert.IsFalse(string.IsNullOrEmpty(result.SurName));
     }
 
+    
 }
