@@ -33,7 +33,7 @@ public class RandomDriverApiServiceTests
     }
 
     [TestMethod]
-    public async Task Get_Random_Driver_Returns_Valid_Object()
+    public async Task Get_Random_Driver_Returns_Valid_Driver()
     {
         var randomDriverApiService = new RandomDriverApiService();
 
